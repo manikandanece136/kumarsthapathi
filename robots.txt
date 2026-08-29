@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kumarsthapathi.netlify.app/sitemap.xml
