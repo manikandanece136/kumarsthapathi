@@ -17,7 +17,30 @@ document.addEventListener("keydown",e=>{if(!lightbox.classList.contains("open"))
 document.querySelectorAll("[data-coming]").forEach(btn=>btn.addEventListener("click",()=>alert("Project photos and detailed information will be added soon.")));
 document.querySelectorAll(".view-project").forEach(btn=>btn.addEventListener("click",()=>document.getElementById("gallery").scrollIntoView({behavior:"smooth"})));
 
+emailjs.init({ publicKey: "OCQwLVk_FoW4bpXZ-" });
+
 document.getElementById("contactForm").addEventListener("submit",function(e){
   e.preventDefault();
-  document.getElementById("formMessage").textContent="Thank you. Please connect this form to an email or backend service before publishing.";
+  const form=e.target;
+  const msgEl=document.getElementById("formMessage");
+  const name=form.name.value.trim();
+  const phone=form.phone.value.trim();
+  const email=form.email.value.trim();
+  const message=form.message.value.trim();
+
+  msgEl.textContent="Sending...";
+
+  emailjs.send("service_vi6jl4m","template_lt6shzl",{
+    name:name,
+    phone:phone,
+    email:email||"-",
+    message:message
+  })
+  .then(()=>{
+    msgEl.textContent="Thank you! Your enquiry has been sent. We will get back to you soon.";
+    form.reset();
+  })
+  .catch(()=>{
+    msgEl.textContent="Sorry, something went wrong. Please call or WhatsApp us directly.";
+  });
 });
